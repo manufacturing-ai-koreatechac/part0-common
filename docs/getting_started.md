@@ -1,128 +1,175 @@
-# 🚀 빠른 시작 가이드
+# 빠른 시작 가이드 — 제조 AI 교육 v1.6.15
 
-Part 1-1 실습을 시작하기 위한 단계별 가이드입니다.
+각 트랙 실습을 시작하기 위한 단계별 가이드입니다.
 
 ---
 
-## ⏱️ 5분 안에 시작하기
+## 전제 조건
 
-### 1. 터미널 열기
+- Python 3.9 이상 (3.10 권장)
+- Git
+- 인터넷 연결 (패키지 설치 및 허깅페이스 모델 다운로드)
 
-**Mac**: `Cmd + Space` → "Terminal" 입력
-**Windows**: `Win + R` → "cmd" 입력
+---
 
-### 2. 프로젝트 폴더로 이동
+## 1단계: 저장소 클론
+
+수강 중인 트랙의 저장소를 클론합니다.
 
 ```bash
-cd /Users/hongmartin/dev/korea_tech_ech_ppt_part_1-1/practice-v12-enhanced
+# 예시: Track A-1 (진동 FFT 고장 진단)
+git clone https://github.com/<org>/track-a1-vibration-fft.git
+cd track-a1-vibration-fft
 ```
 
-### 3. 가상환경 생성 (처음 한 번만)
+트랙별 저장소 이름:
+
+| 트랙 | 저장소 |
+|------|--------|
+| Part 0 (공통) | `part0-common` |
+| Track A-1 | `track-a1-vibration-fft` |
+| Track A-2 | `track-a2-autoencoder-rul` |
+| Track B-1 | `track-b1-cnn-transfer` |
+| Track B-2 | `track-b2-vit-yolov8` |
+| X1 (RAG·Agent) | `x1-rag-agent`, `x1-s3-rag-streamlit` 등 |
+
+---
+
+## 2단계: 가상환경 생성 및 활성화
 
 ```bash
+# 가상환경 생성 (처음 한 번만)
 python -m venv venv
-```
 
-### 4. 가상환경 활성화
-
-**Mac/Linux**:
-```bash
+# 활성화 — Mac/Linux
 source venv/bin/activate
-```
 
-**Windows**:
-```bash
+# 활성화 — Windows
 venv\Scripts\activate
 ```
 
-### 5. 패키지 설치 (처음 한 번만)
+---
+
+## 3단계: 패키지 설치
 
 ```bash
+pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-⏳ **설치 시간**: 약 3-5분
+> **설치 시간**: 약 3~10분 (트랙별로 다름)
 
-### 6. Jupyter Lab 실행
+Part 0 공통 유틸리티도 설치합니다:
 
 ```bash
-cd part1-1
+# 저장소 루트에서 실행하거나, notebooks 내 셀에 추가
+pip install -e ../part0-common   # 로컬 클론한 경우
+```
+
+---
+
+## 4단계: Jupyter Lab 실행
+
+```bash
 jupyter lab
 ```
 
-🎉 **완료!** 브라우저가 자동으로 열립니다.
+브라우저가 자동으로 열립니다. 안 열리면 터미널에 출력된 URL을 복사해 붙여넣으세요.
 
 ---
 
-## 📚 실습 순서
+## 5단계: 노트북 실행 순서
 
-1. `notebooks/01_kamp_data_exploration.ipynb` 열기
-2. `Shift + Enter`로 셀을 하나씩 실행
-3. 완료 후 `02_pycaret_automl.ipynb`로 이동
-4. 마지막으로 `03_shap_explainer.ipynb` 실습
+각 트랙의 `notebooks/` 폴더에서 번호 순서대로 실행합니다.
+
+**Track A-1 예시**:
+1. `01_data_exploration.ipynb` — 데이터 탐색
+2. `02_fft_frequency_analysis.ipynb` — FFT 분석 + BPFI/BPFO 마커
+3. `03_fault_classification.ipynb` — 고장 분류 모델
+
+`Shift + Enter`로 셀을 하나씩 실행하거나, `Kernel > Restart & Run All`로 전체 실행합니다.
 
 ---
 
-## 🆘 문제 발생 시
+## 문제 해결
 
 ### Python이 없어요
+
 ```bash
-# Mac
-brew install python3
+# Mac (Homebrew 사용)
+brew install python@3.10
 
 # Windows
-# python.org에서 다운로드
+# https://www.python.org/downloads/ 에서 다운로드
 ```
 
-### pip install이 실패해요
-```bash
-# pip 업그레이드
-pip install --upgrade pip
+### pip install 실패
 
-# 다시 시도
+```bash
+pip install --upgrade pip setuptools wheel
 pip install -r requirements.txt
 ```
 
-### Jupyter Lab이 안 열려요
-```bash
-# 직접 브라우저에서 열기
-jupyter lab --no-browser
-# 출력된 URL을 복사하여 브라우저에 붙여넣기
-```
+### 한글 폰트 깨짐
 
-### 한글이 깨져요
+노트북 첫 셀에서 `setup_korean_font()`를 호출하면 OS를 자동 감지합니다:
+
 ```python
-# 노트북 첫 셀에 추가
+import sys; sys.path.append('../../part0-common')
+from utils.viz_utils import setup_korean_font, COLORS
+COLORS = setup_korean_font()
+```
+
+직접 설정하려면:
+
+```python
 import matplotlib.pyplot as plt
-plt.rcParams['font.family'] = 'AppleGothic'  # Mac
-# plt.rcParams['font.family'] = 'Malgun Gothic'  # Windows
+# Mac
+plt.rcParams['font.family'] = 'Apple SD Gothic Neo'
+# Windows
+# plt.rcParams['font.family'] = 'Malgun Gothic'
+# Linux/Colab: NanumGothic (apt-get install -y fonts-nanum)
+plt.rcParams['axes.unicode_minus'] = False
 ```
 
----
+### Jupyter Lab 포트 충돌
 
-## 💡 유용한 명령어
-
-### 가상환경 종료
 ```bash
-deactivate
+jupyter lab --port=8889
 ```
 
-### Jupyter Lab 종료
-`Ctrl + C` (터미널에서) → `y` → `Enter`
+### 모듈을 찾을 수 없음 (`ModuleNotFoundError`)
 
-### 패키지 재설치
 ```bash
+# 가상환경이 활성화됐는지 확인
+which python   # Mac/Linux → venv/bin/python 이어야 함
+where python   # Windows  → venv\Scripts\python.exe 이어야 함
+
+# 패키지 재설치
 pip install -r requirements.txt --force-reinstall
 ```
 
 ---
 
-## 📖 더 알아보기
+## 유용한 단축키
 
-- [Jupyter Lab 가이드](https://jupyterlab.readthedocs.io/)
-- [Python 가상환경](https://docs.python.org/3/tutorial/venv.html)
-- [Part 1-1 README](../README.md)
+| 단축키 | 동작 |
+|--------|------|
+| `Shift + Enter` | 셀 실행 후 다음 셀 이동 |
+| `Ctrl + Enter` | 셀 실행 (이동 없음) |
+| `A` (명령 모드) | 위에 새 셀 추가 |
+| `B` (명령 모드) | 아래에 새 셀 추가 |
+| `D D` (명령 모드) | 셀 삭제 |
+| `Esc` | 편집 모드 → 명령 모드 |
 
 ---
 
-*제조AI 교육 v12 Enhanced | 2025.02*
+## 참고 자료
+
+- [Jupyter Lab 공식 문서](https://jupyterlab.readthedocs.io/)
+- [Python 가상환경 가이드](https://docs.python.org/ko/3/tutorial/venv.html)
+- [KAMP 데이터 포털](https://www.kamp-ai.kr/)
+
+---
+
+*제조 AI 교육 v1.6.15 | 2026*
