@@ -37,6 +37,14 @@
 - sample_kamp_cnc.csv — CNC 공정 데이터 샘플
 - sample_kamp_vibration.csv — 설비 진동 데이터 샘플
 
+## 관련 공개 데이터셋
+
+| # | 데이터셋 | 설명 | 규모 | 링크 |
+|:-:|---------|------|:----:|------|
+| 1 | **UCI AI4I 2020 Predictive Maintenance** | CNC 공정 센서 14개 변수 + 고장 유형 5종. 합성 데이터로 즉시 사용 가능. AutoML 실습에 최적. | 10,000행 | [UCI Repository](https://archive.ics.uci.edu/dataset/601/ai4i+2020+predictive+maintenance+dataset) |
+| 2 | **KAMP 스마트제조 공개 데이터** | 한국 스마트제조 AI 플랫폼 제공 실제 공정 데이터. 용접·도장·CNC 등 20종 이상. 본 실습 기반 데이터. | 20종+ | [KAMP 포털](https://www.kamp-ai.kr/front/dataset/AiDataList.jsp) |
+| 3 | **Kaggle Manufacturing Process Failures** | 가공 공정에서 수집한 40개 센서 피처 + 불량 레이블. 피처 선택 및 불균형 처리 실습에 적합. | 1,000건 | [Kaggle](https://www.kaggle.com/datasets/shivamb/machine-predictive-maintenance-classification) |
+
 ## 시작하기
 
 pip install pycaret pandas matplotlib seaborn jupyter
